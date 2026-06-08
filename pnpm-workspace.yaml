@@ -38,7 +38,7 @@ catalogs:
     valibot: ^1.1.0
     xdg-basedir: ^5.1.0
   testing:
-    fs-fixture: ^2.8.1
+    fs-fixture: ^2.14.0
     mitata: ^1.0.34
     vitest: ^4.1.2
   types:
