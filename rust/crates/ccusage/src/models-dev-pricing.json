@@ -3908,6 +3908,18 @@
 					"context": 200000
 				}
 			},
+			"anthropic/claude-fable-5": {
+				"cost": {
+					"cache_read": 1,
+					"cache_write": 12.5,
+					"input": 10,
+					"output": 50
+				},
+				"id": "anthropic/claude-fable-5",
+				"limit": {
+					"context": 1000000
+				}
+			},
 			"anthropic/claude-haiku-4.5": {
 				"cost": {
 					"cache_read": 0.1,
@@ -4060,6 +4072,18 @@
 					"output": 15
 				},
 				"id": "anthropic/claude-sonnet-4.6",
+				"limit": {
+					"context": 1000000
+				}
+			},
+			"~anthropic/claude-fable-latest": {
+				"cost": {
+					"cache_read": 1,
+					"cache_write": 12.5,
+					"input": 10,
+					"output": 50
+				},
+				"id": "~anthropic/claude-fable-latest",
 				"limit": {
 					"context": 1000000
 				}
@@ -5068,6 +5092,18 @@
 				"id": "anthropic/claude-3.7-sonnet",
 				"limit": {
 					"context": 200000
+				}
+			},
+			"anthropic/claude-fable-5": {
+				"cost": {
+					"cache_read": 1,
+					"cache_write": 12.5,
+					"input": 10,
+					"output": 50
+				},
+				"id": "anthropic/claude-fable-5",
+				"limit": {
+					"context": 1000000
 				}
 			},
 			"anthropic/claude-haiku-4.5": {
