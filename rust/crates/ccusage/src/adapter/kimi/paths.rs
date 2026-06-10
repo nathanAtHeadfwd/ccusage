@@ -32,6 +32,10 @@ pub(super) fn paths() -> Result<Vec<PathBuf>> {
         if path.is_dir() && seen.insert(path.clone()) {
             paths.push(path);
         }
+        let path = home.join(".kimi-code");
+        if path.is_dir() && seen.insert(path.clone()) {
+            paths.push(path);
+        }
     }
     Ok(paths)
 }
@@ -60,11 +64,13 @@ fn is_kimi_wire_file(sessions_path: &Path, file_path: &Path) -> bool {
     let Ok(relative) = file_path.strip_prefix(sessions_path) else {
         return false;
     };
-    relative
+    let depth = relative
         .components()
         .filter(|component| matches!(component, Component::Normal(_)))
-        .count()
-        == 3
+        .count();
+    // Old format: sessions/group/session/wire.jsonl (depth 3)
+    // New format: sessions/workspace/session/agents/main/wire.jsonl (depth 5)
+    depth == 3 || depth == 5
 }
 
 #[cfg(test)]
@@ -85,6 +91,25 @@ mod tests {
         assert_eq!(
             files,
             vec![fixture.path("sessions/group/session/wire.jsonl")]
+        );
+    }
+
+    #[test]
+    fn discovers_wire_jsonl_files_under_sessions_workspace_session_agents_main() {
+        let fixture = fs_fixture!({
+            "sessions/workspace/session/agents/main/wire.jsonl": "{}\n",
+            "sessions/workspace/session/agents/main/other.jsonl": "{}\n",
+            "sessions/workspace/session/agents/other/wire.jsonl": "{}\n",
+        });
+        let _cleanup = EnvVarGuard::set(KIMI_DATA_DIR_ENV, fixture.root());
+        let files = discover_wire_files().unwrap();
+
+        assert_eq!(
+            files,
+            vec![
+                fixture.path("sessions/workspace/session/agents/main/wire.jsonl"),
+                fixture.path("sessions/workspace/session/agents/other/wire.jsonl"),
+            ]
         );
     }
 }
